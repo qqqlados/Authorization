@@ -41,6 +41,7 @@ export default function GetStarted() {
 
 			const result = await signIn('credentials', {
 				redirect: false,
+				name: data.name,
 				email: data.email,
 				password: data.password,
 			})

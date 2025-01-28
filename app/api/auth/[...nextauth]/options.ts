@@ -7,6 +7,10 @@ export const options: NextAuthOptions = {
 		CredentialsProvider({
 			name: 'Credentials',
 			credentials: {
+				name: {
+					label: 'Username',
+					type: 'text',
+				},
 				email: {
 					label: 'Email',
 					type: 'text',
@@ -17,7 +21,7 @@ export const options: NextAuthOptions = {
 				},
 			},
 			async authorize(credentials) {
-				const user = { id: '123', email: credentials?.email, password: credentials?.password }
+				const user = { id: '123', name: credentials?.name, email: credentials?.email, password: credentials?.password }
 
 				console.log(credentials)
 
@@ -29,12 +33,14 @@ export const options: NextAuthOptions = {
 		async jwt({ token, user }) {
 			if (user) {
 				token.email = user.email
-				token.token = jwt.sign({ email: user.email }, process.env.NEXTAUTH_SECRET!, { expiresIn: '24h' })
+				token.name = user.name
+				token.token = jwt.sign({ name: user.name, email: user.email }, process.env.NEXTAUTH_SECRET!, { expiresIn: '24h' })
 			}
 			return token
 		},
 		async session({ session, token }) {
 			session.user!.email = token.email
+			session.user!.name = token.name
 			//@ts-ignore
 			session.user!.token = token.token
 

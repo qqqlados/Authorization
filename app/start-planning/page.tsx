@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation'
 import type { Location } from '@/components/map'
 import { useSession } from 'next-auth/react'
 import SessionProviderClient from '@/components/providers/session-provider-client'
+import HeaderNav from '@/components/header-nav'
+import { auth } from '../auth'
 
 const MapComponent = dynamic(() => import('@/components/map'), {
 	ssr: false,
@@ -36,7 +38,7 @@ const saveTrips = (trips: any[]) => {
 	localStorage.setItem('trips', JSON.stringify(trips))
 }
 
-export default function StartPlanning() {
+export default async function StartPlanning() {
 	const router = useRouter()
 	const [showRoute, setShowRoute] = useState(false)
 	const [tripName, setTripName] = useState('')
@@ -46,8 +48,6 @@ export default function StartPlanning() {
 	const [isEditing, setIsEditing] = useState(false)
 	const [locationComment, setLocationComment] = useState('')
 	const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
-
-	// const { data: session } = useSession()
 
 	// console.log(session)
 
@@ -116,12 +116,13 @@ export default function StartPlanning() {
 	return (
 		<>
 			<div className='container flex h-16 items-center justify-between'>
-				<div className='ml-6 flex items-center gap-2'>
+				{/* <div className='ml-6 flex items-center gap-2'>
 					<MapIcon className='h-6 w-6' />
 					<Link href='/'>
 						<span className='text-xl font-bold'>Travel Companion</span>
 					</Link>
-				</div>
+				</div> */}
+				<HeaderNav isAuthorized />
 			</div>
 			<div className='min-h-screen bg-background'>
 				<main className='container mx-auto px-4 sm:px-6 lg:px-8 pt-24'>
