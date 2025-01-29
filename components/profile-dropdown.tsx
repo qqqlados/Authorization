@@ -1,25 +1,30 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { Button } from './ui/button'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useSession } from 'next-auth/react'
 
 export default function ProfileDropdown() {
-	const { data: session } = useSession()
 	const [active, setActive] = useState<boolean>(false)
+
+	const { data: session, status } = useSession()
 
 	const profileLetter = session?.user?.name?.charAt(0).toUpperCase()
 
 	return (
 		<div className='min-w-[200px]'>
-			{session ? (
+			{status == 'authenticated' && (
 				<DropdownMenu onOpenChange={() => setActive(state => !state)}>
-					<DropdownMenuTrigger>
-						<Button className='w-full p-2 flex justify-start items-center gap-2' variant='outline' size='icon'>
-							<div className='grid place-items-center w-8 h-8 bg-slate-300 rounded-full'>
+					<DropdownMenuTrigger className='focus:outline-none'>
+						<Button
+							className={cn('w-full p-2 flex justify-start items-center gap-2 transition duration-200 ease-in-out', active && 'bg-gray-100')}
+							variant='outline'
+							size='icon'
+						>
+							<div className='grid place-items-center w-8 h-8 bg-yellow-300 rounded-full'>
 								<p>{profileLetter}</p>
 							</div>
 							<span>{session?.user?.name}</span>
@@ -36,9 +41,10 @@ export default function ProfileDropdown() {
 						<DropdownMenuItem>About me</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
-			) : (
+			)}
+			{status == 'loading' && (
 				<div role='status' className='max-w-sm animate-pulse'>
-					<div className='h-[38px] bg-gray-200 rounded dark:bg-gray-700 w-[150px]'></div>
+					<div className='h-[38px] bg-gray-200 rounded dark:bg-gray-700 w-40'></div>
 				</div>
 			)}
 		</div>

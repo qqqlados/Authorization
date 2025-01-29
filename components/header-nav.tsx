@@ -1,10 +1,8 @@
 import { MapIcon } from 'lucide-react'
 import { ThemeToggle } from './theme-toggle'
-import { Button } from './ui/button'
-import Link from 'next/link'
-import ProfileDropdown from './profile-dropdown'
+import HeaderAuthContent from './header-auth-content'
 
-export default function HeaderNav({ isAuthorized }: { isAuthorized: boolean }) {
+export default function HeaderNav() {
 	return (
 		<nav className='fixed w-full top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
 			<div className='container flex h-16 items-center justify-between'>
@@ -12,19 +10,10 @@ export default function HeaderNav({ isAuthorized }: { isAuthorized: boolean }) {
 					<MapIcon className='h-6 w-6' />
 					<span className='text-xl font-bold'>Travel Companion</span>
 				</div>
-				<div className='flex items-center gap-4'>
+				<div className='flex basis-[258px] grow-0 items-center gap-4'>
 					<ThemeToggle />
-					{isAuthorized && <ProfileDropdown />}
-					{!isAuthorized && (
-						<>
-							<Button variant='ghost' asChild>
-								<Link href='/get-started'>Sign In</Link>
-							</Button>
-							<Button asChild>
-								<Link href='/get-started'>Get Started</Link>
-							</Button>
-						</>
-					)}
+
+					<HeaderAuthContent />
 				</div>
 			</div>
 		</nav>
