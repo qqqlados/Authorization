@@ -5,7 +5,8 @@ import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { Button } from './ui/button'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
+import { LogOut } from 'lucide-react'
 
 export default function ProfileDropdown() {
 	const [active, setActive] = useState<boolean>(false)
@@ -13,6 +14,8 @@ export default function ProfileDropdown() {
 	const { data: session, status } = useSession()
 
 	const profileLetter = session?.user?.name?.charAt(0).toUpperCase()
+
+	const handleLogout = () => {}
 
 	return (
 		<div className='min-w-[200px]'>
@@ -36,9 +39,10 @@ export default function ProfileDropdown() {
 							></div>
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent className='text-sm pl-8'>
-						<DropdownMenuItem>Settings</DropdownMenuItem>
-						<DropdownMenuItem>About me</DropdownMenuItem>
+					<DropdownMenuContent className='cursor-pointer text-sm pl-3'>
+						<DropdownMenuItem className='flex items-center gap-2 focus:outline-none' onClick={() => signOut({ callbackUrl: '/get-started' })}>
+							<LogOut className='rotate-180 w-4 h-4' color='#303030' opacity={0.8} /> Log out
+						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			)}

@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { MapIcon, CompassIcon, CloudSunIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/theme-toggle'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import HeaderNav from '@/components/header-nav'
@@ -20,7 +19,7 @@ const MapComponent = dynamic(() => import('@/components/map'), {
 export default function Home() {
 	return (
 		<div className='min-h-screen bg-background'>
-			<HeaderNav isAuthorized={false} />
+			<HeaderNav />
 
 			<main className='container mx-auto px-4 sm:px-6 lg:px-8'>
 				<section className='pt-32 pb-16'>
